@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Onusles - Return Requests {% endblock %}
+
+{% block content %}
+
+<h1 class="display-4">Return Submitted</h1>
+<p>Return submitted successfully!</p>
+<p>Please allow 3-5 days from the date that your return package was sent for your refund.</p>
+
+<div>
+  {% if count == 0 %}
+  <p>There are no return requests.</p>
+  {% elif count == 1 %}
+  <p>There is 1 request.</p>
+  {% else %}
+  <p>There are {{ count }} requests.</p>
+  {% endif %}
+</div>
+
+
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Return ID</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Reason</th>
+        <th>Remarks</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for returns in returns_list %}
+      <tr>
+        <td>{{ returns.get_returns_id() }}</td>
+        <td>{% for key, product in orders.orders.items() %} {{product.name}}</td>
+
+        <td>{{product.quantity}}</td>
+         {% endfor %}
+        <td>{{ returns.get_reason() }}</td>
+        {% if returns.get_reason() == "D" %}
+        <td>Damaged or defective item(s)</td>
+        {% elif returns.get_reason() == "N" %}
+        <td>Not true in size / measurement</td>
+        {% elif returns.get_reason() == "P" %}
+        <td>Poor quality of fabric / Faulty</td>
+        {% elif returns.get_reason() == "L" %}
+        <td>Look different / Not as described</td>
+        {% elif returns.get_reason() == "O" %}
+        <td>Others</td>
+        {% endif %}
+        <td>{{ returns.get_remarks() }}</td>
+
+        <td><a href="/updateReturns/{{returns.get_returns_id()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_returns', id=returns.get_returns_id())}}"  method="POST">
+<!--            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you-->
+<!--        sure you want to delete  {#returns.get_quantity()#} of {#returns.get_product()#}?');">-->
+            <!-- Button to Open the Modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{returns.get_returns_id()}}">
+  Delete
+</button>
+
+<!-- The Modal -->
+<div class="modal" id="myModal_{{returns.get_returns_id()}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Confirmation</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+       Are you sure you want to delete {% for key, product in orders.orders.items() %} {{product.name}} x {{product.quantity}}?
+      </div>
+      {% endfor %}
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <input type="submit" value="Delete" class="btn btn-danger">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<style>
+  #button1 {
+  width: 20px;
+  height: 30px;
+  background: #333333;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 0px 0;
+  }
+
+  button, input[type="button"], input[type="reset"], input[type="submit"] {
+  background: #333;
+  color: #fff;
+  line-height: normal;
+  }
+
+  #update {
+  color: #fff;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+  background: none;
+  }
+</style>
+{% endblock %}

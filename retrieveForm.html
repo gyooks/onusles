@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Retrieve Forms{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+                                <li><a href="/staff">Staff<i class="ti-arrow-right"></i></a></li>
+                                <li class="active"><a href="/retrieveForm">Forms</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- End Breadcrumbs -->
+<section class="product-area shop-sidebar shop section">
+			<div class="container">
+				<div class="row">
+					{% block categories %}
+						{% include 'includes/_categories.html' %}
+					{% endblock %}
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+							<div class="col-12">
+								<!-- Shop Top -->
+<!--								<div class="shop-top">-->
+<!--									<div class="shop-shorter">-->
+<!--										<div class="single-shorter">-->
+<!--											<form>-->
+<!--											<input name="search" placeholder="Search Entries Here....." type="search" id="searchbar">-->
+<!--											<button class="btnn" id="button1"><i class="ti-search"></i></button>-->
+<!--											</form>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+								<!--/ End Shop Top -->
+							</div>
+						</div>
+                        <div>
+                          {% if count == 0 %}
+                          <p>There are no users.</p>
+                          {% elif count == 1 %}
+                          <p>There is 1 user.</p>
+                          {% else %}
+                          <p>There are {{ count }} users.</p>
+                          {% endif %}
+                        </div>
+						<div class="row">
+							<div class="col-lg-4 col-md-6 col-12">
+								<table class="table table-sm table-striped">
+									<thead>
+									  <tr>
+									  	<th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Form Type</th>
+                                        <th>Remarks</th>
+                                        <th>Update</th>
+                                        <th>Delete</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  {% for yukin in users_list %}
+      <tr>
+        <td>{{ yukin.get_user_id() }}</td>
+        <td>{{ yukin.get_name() }}</td>
+        <td>{{ yukin.get_email() }}</td>
+        {% if yukin.get_form() == 'F' %}
+        <td>Feedback</td>
+        {% else %}
+        <td>Preference</td>
+        {% endif %}
+        <td>{{yukin.get_remarks()}}</td>
+        <td><a href="/updateForm/{{yukin.get_user_id()}}" class="btn btn-warning" id="update">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_user', id=yukin.get_user_id())}}" method="POST">
+              <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{yukin.get_user_id()}}">Delete</button>
+              <!-- The Modal -->
+    <div class="modal" id="myModal_{{yukin.get_user_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+          <h3 style="text-align:center;">Are you sure you want to delete {{yukin.get_name()}} {{yukin.get_email()}}?</h3>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+              <input type="submit" value="Delete" class="btn btn-danger">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+</section>
+<style>
+  #button1 {
+  width: 20px;
+  height: 30px;
+  background: #333333;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 0px 0;
+  }
+
+  button, input[type="button"], input[type="reset"], input[type="submit"] {
+  background: #333;
+  color: #fff;
+  line-height: normal;
+  }
+
+  #update {
+  color: #fff;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+  background: none;
+  }
+
+</style>
+{% endblock %}

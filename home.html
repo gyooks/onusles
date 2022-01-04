@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}Onusles - Home{% endblock %}
+
+{% block content %}
+{% include 'includes/_messages.html' %}
+<html>
+<body class="js">
+	<!-- Slider Area -->
+	<section class="hero-slider">
+		<!-- Single Slider -->
+		<div class="single-slider" id="background">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-lg-9 offset-lg-3 col-12">
+						<div class="text-inner">
+							<div class="row">
+								<div class="col-lg-7 col-12">
+									<div class="hero-text">
+										<h1>ONUSLES</h1>
+										<p style="color:white">A non-profit thrift store organization. We aim to honestly help those in need, while lifting a load of your shoulders.</p>
+										<div class="button">
+											<a href="/about" class="btn">Learn more</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/ End Single Slider -->
+	</section>
+	<!--/ End Slider Area -->
+
+<!--	&lt;!&ndash; Start Small Banner  &ndash;&gt;-->
+<!--	<section class="small-banner section">-->
+<!--		<div class="container-fluid">-->
+<!--			<div class="row">-->
+<!--				&lt;!&ndash; Single Banner  &ndash;&gt;-->
+<!--				<div class="col-lg-4 col-md-6 col-12">-->
+<!--					<div class="single-banner">-->
+<!--						<img src="https://via.placeholder.com/600x370" alt="#">-->
+<!--						<div class="content">-->
+<!--							<p>Man's Collectons</p>-->
+<!--							<h3>Summer travel <br> collection</h3>-->
+<!--							<a href="#">Discover Now</a>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				&lt;!&ndash; /End Single Banner  &ndash;&gt;-->
+<!--				&lt;!&ndash; Single Banner  &ndash;&gt;-->
+<!--				<div class="col-lg-4 col-md-6 col-12">-->
+<!--					<div class="single-banner">-->
+<!--						<img src="https://via.placeholder.com/600x370" alt="#">-->
+<!--						<div class="content">-->
+<!--							<p>Bag Collectons</p>-->
+<!--							<h3>Awesome Bag <br> 2020</h3>-->
+<!--							<a href="#">Shop Now</a>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				&lt;!&ndash; /End Single Banner  &ndash;&gt;-->
+<!--				&lt;!&ndash; Single Banner  &ndash;&gt;-->
+<!--				<div class="col-lg-4 col-12">-->
+<!--					<div class="single-banner tab-height">-->
+<!--						<img src="https://via.placeholder.com/600x370" alt="#">-->
+<!--						<div class="content">-->
+<!--							<p>Flash Sale</p>-->
+<!--							<h3>Mid Season <br> Up to <span>40%</span> Off</h3>-->
+<!--							<a href="#">Discover Now</a>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				&lt;!&ndash; /End Single Banner  &ndash;&gt;-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</section>-->
+	<!-- End Small Banner -->
+
+	<!-- Start Product Area -->
+    <div class="product-area section">
+            <div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="section-title">
+							<h2>Products</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="product-info">
+							<div class="nav-main">
+								<!-- Tab Nav -->
+								<ul class="nav nav-tabs" id="myTab" role="tablist">
+									<li class="nav-item"><a class="nav-link" href="/" >All products</a></li>
+									{% for category in categories %}
+									<li class="nav-item"><a class="nav-link" href="{{url_for('get_category', id=category.id)}}" >{{category.name}}</a></li>
+									{% endfor %}
+								</ul>
+								<!--/ End Tab Nav -->
+							</div>
+							<div class="tab-content" id="myTabContent">
+								<!-- Start Single Tab -->
+								<!-- Product Loop Start -->
+								<div class="tab-pane fade show active" id="man" role="tabpanel">
+									<div class="tab-single">
+										<!-- Category -->
+								<div class="row">
+											{% if get_cat_prod %}
+											{% for get_cat in get_cat_prod.items %}
+											<div class="col-xl-3 col-lg-4 col-md-4 col-12">
+												<div class="single-product">
+													<div class="product-img">
+														<a href="#">
+															<img class="default-img" src="{{url_for('static', filename='images/' + get_cat.image_1)}}" alt="{{get_cat.name}}">
+															<img class="hover-img" src="{{url_for('static', filename='images/' + get_cat.image_1)}}" alt="{{get_cat.name}}">
+														</a>
+														<div class="button-head">
+
+
+															<div class="product-action-2">
+																<form action="{{url_for('AddCart')}}" method="post">
+																<input type="hidden" name="product_id" value="{{get_cat.id}}">
+																<button type="submit" class="btn btn-sm btn-warning float-right">Add cart</button>
+																<input type="hidden" name="quantity" id="" value="1" min="1" max="{{get_cat.stock}}">
+																</form>
+															</div>
+
+
+
+														</div>
+													</div>
+													</div>
+													<div class="product-content">
+														<h3 style="font-size:20px"><a href="{{url_for('single_page', id=get_cat.id)}}">{{get_cat.name}}</a></h3>
+														<div class="product-price" id="productPrice">
+															<span>${{get_cat.price}}</span><br>
+															{% if get_cat.discount > 0 %}
+															<span>Discount {{get_cat.discount}}%</span>
+															{% endif %}
+														</div>
+													</div>
+													</div>
+											{% endfor %}
+												</div>
+												</div>
+											</div>
+								<!-- Pagination -->
+								<div class="row">
+								<div class="col text-center">
+									{% if get_cat_prod.has_prev %}
+									<a href="{{url_for('get_category', id=get_cat.id, page=get_cat_prod.prev_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Previous</a>
+									{% endif %}
+									{% if get_cat_prod.total>8 %}
+									{% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+									{% if page_num %}
+									{% if get_cat_prod.page == page_num %}
+									<a href="{{url_for('get_category', id=get_cat.id, page=page_num)}}" class="btn btn-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% else %}
+									<a href="{{url_for('get_category', id=get_cat.id, page=page_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% endif %}
+									{% else %}
+									...
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									{% if get_cat_prod.has_next %}
+									<a href="{{url_for('get_category',id=get_cat.id, page=get_cat_prod.next_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Next</a>
+									{% endif %}
+								</div>
+							</div>
+								<!--Product-->
+										<div class="row">
+											{% else %}
+											{% for product in products.items %}
+											<div class="col-xl-3 col-lg-4 col-md-4 col-12">
+												<div class="single-product">
+													<div class="product-img">
+														<a href="#">
+															<img class="default-img" src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}">
+															<img class="hover-img" src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}">
+														</a>
+														<div class="button-head">
+
+
+
+															<div class="product-action-2">
+																<form action="{{url_for('AddCart')}}" method="post">
+																<input type="hidden" name="product_id" value="{{product.id}}">
+																<button type="submit" class="btn btn-sm btn-warning float-right">Add cart</button>
+																<input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+																</form>
+															</div>
+
+
+
+														</div>
+													</div>
+													</div>
+													<div class="product-content">
+														<h3 style="font-size:20px"><a href="{{url_for('single_page', id=product.id)}}">{{product.name}}</a></h3>
+														<div class="product-price" id="productPrice">
+															<span>${{product.price}}</span><br>
+															{% if product.discount > 0 %}
+															<span>Discount {{product.discount}}%</span>
+															{% endif %}
+														</div>
+													</div>
+													</div>
+											{% endfor %}
+												</div>
+												</div>
+											</div>
+								<!-- Pagination -->
+								<div class="row">
+								<div class="col text-center">
+									{% if products.has_prev %}
+									<a href="{{url_for('home', page=products.prev_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Previous</a>
+									{% endif %}
+									{% if products.total>8 %}
+									{% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+									{% if page_num %}
+									{% if products.page == page_num %}
+									<a href="{{url_for('home', page=page_num)}}" class="btn btn-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% else %}
+									<a href="{{url_for('home', page=page_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% endif %}
+									{% else %}
+									...
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									{% if products.has_next %}
+									<a href="{{url_for('home', page=products.next_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Next</a>
+									{% endif %}
+								</div>
+							</div>
+							{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+    </div>
+    <!-- Modal end -->
+</body>
+</html>
+<style>
+#background {
+	background-image: url('https://images.unsplash.com/photo-1569424746512-4f98ac866469?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80');
+	}
+</style>
+{% endblock %}

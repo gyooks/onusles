@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="shopping-cart section">
+<div class="container">
+    {% include 'includes/_messages.html' %}
+    <div class="row">
+        <div class="col-12">
+        <table class="table shopping-summery">
+            <thead class="main-hading">
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>PRICE</th>
+                <th>QUANTITY</th>
+                <th>DISCOUNT</th>
+                <th>SUBTOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for key,product in orders.orders.items() %}
+            {% set discount = "%0.2f" |format((product.discount/100) * product.price|float)%}
+            <tr style="text-align:center;">
+                <td>{{loop.index}}</td>
+                <td class="product-name">{{product.name}}</td>
+                <form action="{{url_for('updatecart', code=key)}}" method="post">
+                <td class="price">${{product.price}}</td>
+                <td>{{product.quantity}}</td>
+                {% if product.discount > 0 %}
+                <td>{{product.discount}}% &nbsp; is {{discount}}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                {% set subtotal = product.quantity|int * product.price|float %}
+                <td class="total-amount">${{"%0.2f"|format((subtotal|float) - discount|float)}}</td>
+                </form>
+            </tr>
+            {% endfor %}
+            </tbody>
+             </table>
+        </div>
+        </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="total-amount">
+                <div class="row">
+                <div class="col-lg-8 col-md-5 col-12">
+                        <div class="left">
+                            <ul>
+                                <li>Invoice: {{orders.invoice}}</li>
+                                <li>Status: {{orders.status}}</li>
+                                <li>Customer name: {{customer.name}}</li>
+                                <li>Customer email: {{customer.email}}</li>
+                                <li>Customer contact: {{customer.contact}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-7 col-12">
+                    <div class="right">
+                            <ul>
+                                <li>Shipping:<span>${{tax}}</span></li>
+                                <li>Grand Total:<span>${{grandTotal}}</span></li>
+                            {% if orders.status == 'Paid' %}
+                            {% else %}
+                    <li><span><form action="{{url_for('payment')}}" method="POST">
+                            {% set amount = grandTotal | int %}
+                            <input type="hidden" name="amount" value="{{amount}}">
+                            <input type="hidden" name="invoice" value="{{orders.invoice}}">
+                          <script
+                            src="https://checkout.stripe.com/checkout.js"
+                            class="stripe-button"
+                            data-key="pk_test_51ICIOSGHGm0ckH0izIMyxTwQVZZmISyThsgRADHkLb9ueH3TxjKOfXXe7012uQnM7pmjT8x5iqbSKpqmeaXTTUnF00fGBfDbtV"
+                            data-name="Onusles"
+                            data-description="{{orders.invoice}}"
+                            data-amount="{{(amount * 100) | replace('.', '')}}"
+                            data-currency="sgd">
+                          </script>
+                    </form></span></li>
+                        </ul>
+            {% endif %}
+                    </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+</div>
+</div>
+</div>
+{% endblock content %}

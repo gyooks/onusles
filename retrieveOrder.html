@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Transaction Successful{% endblock %}
+{% block content %}
+<body>
+<h1>Transaction Successful!</h1>
+<h2>Thank you for your order. We are processing your order and will send you an email shortly.</h2>
+<form method="post">
+{% for order in orders_list %}
+<p>Your Email: {{ order.get_email() }}</p>
+<p>Delivery Address: {{ order.get_address1()}} {{ order.get_address2() }}</p>
+<p>Shipping: $10.00</p>
+<p>Sub-Total: $330.00</p>
+<p>Total: $340.00</p>
+{% endfor %}
+</form>
+<a href="/">Go To Homepage</a>
+</body>
+{% endblock %}
+

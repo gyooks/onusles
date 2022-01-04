@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Onusles - Retrieve Donate{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Retrieve Donation Submission</h1>
+<div>
+  {% if count == 0 %}
+  <p>There are no submission.</p>
+  {% elif count == 1 %}
+  <p>There is 1 submission.</p>
+  {% else %}
+  <p>There are {{ count }} submission.</p>
+  {% endif %}
+</div>
+
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Item checked</th>
+        <th>Specifications</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for donate in donate_list %}
+      <tr>
+        <td>{{ donate.get_donate_id() }}</td>
+        <td>{{ donate.get_first_name() }}</td>
+        <td>{{ donate.get_last_name() }}</td>
+        <td>{{ donate.get_email() }}</td>
+        {% if donate.get_check_one() == "C" %}
+        <td>Clothes</td>
+        {% elif donate.get_check_one() == "S" %}
+        <td>Shoes</td>
+        {% elif donate.get_check_one() == "B" %}
+        <td>Bags</td>
+        {% elif donate.get_check_one() == "A" %}
+        <td>Accessories</td>
+        {% endif %}
+        <td>{{ donate.get_specifications() }}</td>
+        <td><a href="/updateDonate/{{donate.get_donate_id()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_donate',id=donate.get_donate_id())}}" method="POST">
+          <!-- Button to Open the Modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{donate.get_donate_id()}}">Delete</button>
+
+<!-- The Modal -->
+<div class="modal" id="myModal_{{donate.get_donate_id()}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Confirmation</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Are you sure you want to delete {{donate.get_first_name()}} {{donate.get_last_name()}}?
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <input type="submit" value="Delete" class="btn btn-danger">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

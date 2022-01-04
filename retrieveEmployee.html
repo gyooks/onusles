@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Onusles - Employees{% endblock %}
+
+{% block content %}
+{% include 'includes/_messages.html' %}
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+                                <li><a href="/retrieveProducts">Staff<i class="ti-arrow-right"></i></a></li>
+                                <li class="active"><a href="/retrieveEmployee">Employees</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- End Breadcrumbs -->
+<section class="product-area shop-sidebar shop section">
+			<div class="container">
+				<div class="row">
+					{% block categories %}
+						{% include 'includes/_categories.html' %}
+					{% endblock %}
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+							<div class="col-12">
+								<!-- Shop Top -->
+<!--								<div class="shop-top">-->
+<!--									<div class="shop-shorter">-->
+<!--										<div class="single-shorter">-->
+<!--											<form>-->
+<!--											<input name="search" placeholder="Search Products Here....." type="search" id="searchbar">-->
+<!--											<button class="btnn" id="button1"><i class="ti-search"></i></button>-->
+<!--											</form>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+								<!--/ End Shop Top -->
+							</div>
+						</div>
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-12">
+        <table class="table table-sm table-striped">
+        <thead>
+        <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Gender</th>
+        <th>Role</th>
+        <th>Country</th>
+        <th>Contact</th>
+        <th>Address</th>
+        <th>Date Created</th>
+        <th>Update</th>
+        <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employee in employee.items %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{employee.name}}</td>
+            <td>{{employee.username}}</td>
+            {% if employee.gender == "F" %}
+            <td>Female</td>
+            {% else %}
+            <td>Male</td>
+            {% endif %}
+            {% if employee.role == "E" %}
+            <td>Employee</td>
+            {% else %}
+            <td>Manager</td>
+            {% endif %}
+            <td>{{employee.country}}</td>
+            <td>{{employee.contact}}</td>
+            <td>{{employee.address}}</td>
+            <td>{{employee.date_created}}</td>
+            <td><a href="{{url_for('updateemployee', id=employee.id)}}" class="btn btn-info btn-sm" style="color:white">Update</a></td>
+            <td>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{employee.id}}">
+              Delete
+            </button>
+
+            </td>
+        </tr>
+        <!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal-{{employee.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h2 style="text-align:center;">Are you sure you want to delete the customer {{employee.name}}?</h2>
+      </div>
+      <div class="modal-footer">
+          <form action="{{url_for('deleteemployee', id=employee.id)}}" method="post">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+           <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+        {% endfor %}
+        </tbody>
+    </table>
+							</div>
+						</div>
+                        <div class="row">
+							<div class="col-lg-4 col-md-6 col-12">
+									{% if employee.has_prev %}
+									<a href="{{url_for('retrieveemployees', page=employee.prev_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Prev</a>
+									{% endif %}
+									{% if employee.total > 5 %}
+									{% for page_num in employee.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+									{% if page_num %}
+									{% if employee.page == page_num %}
+									<a href="{{url_for('retrieveemployees', page=page_num)}}" class="btn btn-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% else %}
+									<a href="{{url_for('retrieveemployees', page=page_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% endif %}
+									{% else %}
+									...
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									{% if employee.has_next %}
+									<a href="{{url_for('retrieveemployees', page=employee.next_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Next</a>
+									{% endif %}
+
+								</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+</section>
+<style>
+  #button1 {
+  width: 20px;
+  height: 30px;
+  background: #333333;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 0px 0;
+  }
+
+  button, input[type="button"], input[type="reset"], input[type="submit"] {
+  background: #333;
+  color: #fff;
+  line-height: normal;
+  }
+
+  #update {
+  color: #fff;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+  background: none;
+  }
+</style>
+{% endblock %}

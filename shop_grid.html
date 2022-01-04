@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% block title %}Shop Grid{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="/shopgrid">Shop Grid</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Breadcrumbs -->
+
+		<!-- Product Style -->
+		<section class="product-area shop-sidebar shop section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-12">
+						<div class="shop-sidebar">
+								<!-- Single Widget -->
+								<div class="single-widget category">
+									<h3 class="title">Categories</h3>
+									{% for category in categories %}
+									<ul class="categor-list">
+										<li><a href="{{url_for('get_cat', id=category.id)}}">{{category.name}}</a></li>
+									</ul>
+									{% endfor %}
+								</div>
+						</div>
+					</div>
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+							<div class="col-12">
+								<!-- Shop Top -->
+								<div class="shop-top">
+									<div class="shop-shorter">
+									</div>
+									<ul class="view-mode">
+										<li class="active"><a href="/shopgrid"><i class="fa fa-th-large"></i></a></li>
+									</ul>
+								</div>
+								<!--/ End Shop Top -->
+							</div>
+						</div>
+						<div class="row">
+							{% if get_cat_prod %}
+							{% for get_cat in get_cat_prod.items %}
+							<div class="col-lg-4 col-md-6 col-12">
+								<div class="single-product">
+									<div class="product-img">
+										<a href="product-details.html">
+											<img class="default-img" src="{{url_for('static', filename='images/' + get_cat.image_1)}}" alt="{{get_cat.name}}">
+											<img class="hover-img" src="{{url_for('static', filename='images/' + get_cat.image_1)}}" alt="{{get_cat.name}}">
+										</a>
+										<div class="button-head">
+											{% if current_user.is_authenticated %}
+											<div class="product-action">
+												<form action="{{url_for('AddWishlist')}}" method="post">
+
+												<input type="hidden" name="product_id" value="{{get_cat.id}}">
+
+												<button type="submit" title="Wishlist" ><i class="ti-heart"></i></button>
+
+												<input type="hidden" name="quantity" id="" value="1" min="1" max="{{get_cat.stock}}">
+
+												</form>
+											</div>
+											{% else %}
+											{% endif %}
+											<div class="product-action-2">
+												<form action="{{url_for('AddCart')}}" method="post">
+												<input type="hidden" name="product_id" value="{{get_cat.id}}">
+												<button type="submit" class="btn btn-sm btn-warning float-right">Add cart</button>
+												<input type="hidden" name="quantity" id="" value="1" min="1" max="{{get_cat.stock}}">
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="product-content">
+										<h3 style="font-size:20px"><a href="{{url_for('single_page', id=get_cat.id)}}">{{get_cat.name}}</a></h3>
+										<div class="product-price" id="productPrice">
+											<span>${{get_cat.price}}</span><br>
+											{% if get_cat.discount > 0 %}
+											<span>Discount {{get_cat.discount}}%</span>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+							<!-- Pagination -->
+								<div class="row">
+								<div class="col text-center">
+									{% if get_cat_prod.has_prev %}
+									<a href="{{url_for('get_category', id=get_cat.id, page=get_cat_prod.prev_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Previous</a>
+									{% endif %}
+									{% if get_cat_prod.total>9 %}
+									{% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+									{% if page_num %}
+									{% if get_cat_prod.page == page_num %}
+									<a href="{{url_for('get_category', id=get_cat.id, page=page_num)}}" class="btn btn-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% else %}
+									<a href="{{url_for('get_category', id=get_cat.id, page=page_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% endif %}
+									{% else %}
+									...
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									{% if get_cat_prod.has_next %}
+									<a href="{{url_for('get_category',id=get_cat.id, page=get_cat_prod.next_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Next</a>
+									{% endif %}
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							{% else %}
+							{% for product in products.items %}
+							<div class="col-lg-4 col-md-6 col-12">
+								<div class="single-product">
+									<div class="product-img">
+										<a href="product-details.html">
+											<img class="default-img" src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}">
+											<img class="hover-img" src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}">
+										</a>
+										<div class="button-head">
+											{% if current_user.is_authenticated %}
+											<div class="product-action">
+												<form action="{{url_for('AddWishlist')}}" method="post">
+
+												<input type="hidden" name="product_id" value="{{product.id}}">
+
+												<button type="submit" title="Wishlist" ><i class="ti-heart"></i></button>
+
+												<input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+
+												</form>
+											</div>
+											{% else %}
+											{% endif %}
+											<div class="product-action-2">
+												<form action="{{url_for('AddCart')}}" method="post">
+												<input type="hidden" name="product_id" value="{{product.id}}">
+												<button type="submit" class="btn btn-sm btn-warning float-right">Add cart</button>
+												<input type="hidden" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="product-content">
+										<h3 style="font-size:20px"><a href="{{url_for('single_page', id=product.id)}}">{{product.name}}</a></h3>
+										<div class="product-price" id="productPrice">
+											<span>${{product.price}}</span><br>
+											{% if product.discount > 0 %}
+											<span>Discount {{product.discount}}%</span>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+							<!-- Pagination -->
+								<div class="row">
+								<div class="col text-center">
+									{% if products.has_prev %}
+									<a href="{{url_for('home', page=products.prev_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Previous</a>
+									{% endif %}
+									{% if products.total>9 %}
+									{% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+									{% if page_num %}
+									{% if products.page == page_num %}
+									<a href="{{url_for('home', page=page_num)}}" class="btn btn-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% else %}
+									<a href="{{url_for('home', page=page_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% endif %}
+									{% else %}
+									...
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									{% if products.has_next %}
+									<a href="{{url_for('home', page=products.next_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Next</a>
+									{% endif %}
+								</div>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--/ End Product Style 1  -->
+{% endblock %}

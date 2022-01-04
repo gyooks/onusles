@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Onusles - Products{% endblock %}
+
+{% block content %}
+{% include 'includes/_messages.html' %}
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+                                <li><a href="/retrieveProducts">Staff<i class="ti-arrow-right"></i></a></li>
+                                <li class="active"><a href="/retrieveOrders">Orders</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- End Breadcrumbs -->
+<section class="product-area shop-sidebar shop section">
+			<div class="container">
+				<div class="row">
+					{% block categories %}
+						{% include 'includes/_categories.html' %}
+					{% endblock %}
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+							<div class="col-12">
+								<!-- Shop Top -->
+<!--								<div class="shop-top">-->
+<!--									<div class="shop-shorter">-->
+<!--										<div class="single-shorter">-->
+<!--&lt;!&ndash;											<form>&ndash;&gt;-->
+<!--&lt;!&ndash;											<input name="search" placeholder="Search Products Here....." type="search" id="searchbar">&ndash;&gt;-->
+<!--&lt;!&ndash;											<button class="btnn" id="button1"><i class="ti-search"></i></button>&ndash;&gt;-->
+<!--&lt;!&ndash;											</form>&ndash;&gt;-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+								<!--/ End Shop Top -->
+							</div>
+						</div>
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-12">
+        <table class="table table-sm table-striped">
+        <thead>
+        <tr>
+        <th>ID</th>
+        <th>Cust. ID</th>
+        <th>Invoice</th>
+        <th>Status</th>
+        <th>Date of Order</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in order.items %}
+        <tr>
+            <td>{{order.id}}</td>
+            <td>{{order.customer_id}}</td>
+            <td>{{order.invoice}}</td>
+            <td>{{order.status}}</td>
+            <td>{{order.date_created}}</td>
+        </tr>
+        <!-- Button trigger modal -->
+        {% endfor %}
+        </tbody>
+    </table>
+							</div>
+						</div>
+                        <div class="row">
+							<div class="col-lg-4 col-md-6 col-12">
+									{% if order.has_prev %}
+									<a href="{{url_for('retrieve_orders', page=order.prev_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Prev</a>
+									{% endif %}
+									{% if order.total > 5 %}
+									{% for page_num in order.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+									{% if page_num %}
+									{% if order.page == page_num %}
+									<a href="{{url_for('retrieve_orders', page=page_num)}}" class="btn btn-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% else %}
+									<a href="{{url_for('retrieve_orders', page=page_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+									{% endif %}
+									{% else %}
+									...
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+									{% if order.has_next %}
+									<a href="{{url_for('retrieve_orders', page=order.next_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Next</a>
+									{% endif %}
+								</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+</section>
+<style>
+  #button1 {
+  width: 20px;
+  height: 30px;
+  background: #333333;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 0px 0;
+  }
+
+  button, input[type="button"], input[type="reset"], input[type="submit"] {
+  background: #333;
+  color: #fff;
+  line-height: normal;
+  }
+
+  #update {
+  color: #fff;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+  background: none;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+{% from "includes/_formHelper.html" import render_field %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="/checkout">Checkout</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Breadcrumbs -->
+<!-- Start Checkout -->
+		<section class="shop checkout section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-12">
+						<div class="checkout-form">
+							<h2>Make Your Checkout Here</h2>
+							<p>Please register in order to checkout more quickly</p>
+							<!-- Form -->
+							<form class="form" method="post" action="" >
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.first_name, class="form-control") }}
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.last_name, class="form-control") }}
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.email, class="form-control") }}
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.phone, class="form-control") }}
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.country, class="form-control") }}
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.address1, class="form-control") }}
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.address2, class="form-control") }}
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-12">
+										<div class="form-group">
+											{{ render_field(form.postal_code, class="form-control") }}
+										</div>
+									</div>
+									<div class="single-widget">
+								<h2>Payments</h2>
+								<div class="content">
+										<ul>
+											<li><input type="submit" value="Cash on Delivery" class="btn btn-primary" id="button1" name="submit"/></li>
+											<li>
+										<li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="button2">Credit/Debit Card
+										</button></li>
+										<li><button type="button" class="btn btn-primary" id="button3">PayPal
+										</button>
+										</li>
+										</ul>
+										<div class="single-widget payement">
+											<div class="content">
+											<img src="{{url_for('static', filename='img/payment-method.png')}}" alt="#">
+										</div>
+								</div>
+								</div>
+							</div>
+							<!--/ End Order Widget -->
+							<!-- Payment Method Widget -->
+
+								</div>
+							</form>
+							<!--/ End Form -->
+						</div>
+					</div>
+					<div class="col-lg-4 col-12">
+						<div class="order-details">
+							<!-- Order Widget -->
+							<div class="single-widget">
+								<h2>CART  TOTALS</h2>
+								{% if 'Shoppingcart' in session %}
+								<div class="content">
+									<ul>
+										<li>Sub Total<span>${{subtotal}}</span></li>
+										<li>(+) Shipping<span>${{tax}}</span></li>
+										<li class="last">Total<span>${{grandtotal}}</span></li>
+									</ul>
+								</div>
+								{% endif %}
+							</div>
+							<!--/ End Order Widget -->
+							<!-- Order Widget -->
+							<!--/ End Payment Method Widget -->
+							<!-- Button Widget -->
+
+
+									<!-- The Modal -->
+									<div class="modal" id="myModal">
+									  <div class="modal-dialog">
+										<div class="modal-content">
+
+										  <!-- Modal Header -->
+										  <div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										  </div>
+
+										  <!-- Modal body -->
+										  <div class="modal-body">
+											<section class="shop checkout section">
+										  	<div class="container">
+										 	 <div class="row">
+											  	<div class="col-lg-4 col-12">
+												<div class="order-details">
+													<!-- Order Widget -->
+													<div class="single-widget" id="cartItems">
+														<h2>CART  TOTALS</h2>
+														<div class="content" id="tableItems">
+															<ul>
+																<li>Sub Total<span>$Total Price</span></li>
+																<li>(+) Shipping<span>$10.00</span></li>
+																<li class="last">Total<span>$340.00</span></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											  </div>
+											<div class="col-lg-8 col-12">
+											<div class="checkout-form">
+										  	<div class="col-lg-6 col-md-6 col-12">
+												<h2>Paying $000</h2>
+											</div>
+											<form class="form" method="post" action="">
+											<div class="col-lg-6 col-md-6 col-12">
+												<div class="form-group">
+													{{ render_field(form.card_name, class="form-control") }}
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6 col-12">
+												<div class="form-group">
+													{{ render_field(form.card_number, class="form-control") }}
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6 col-12">
+												<div class="form-group">
+													{{ render_field(form.expiry_date, class="form-control") }}
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6 col-12">
+												<div class="form-group">
+													{{ render_field(form.cvv, class="form-control") }}
+												</div>
+											</div>
+												<input type="submit" value="Pay" class="btn btn-primary" name="submit" formaction="/order"/>
+											</form>
+											</div>
+
+										 </div>
+										  </div>
+
+
+											</div>
+										  </section>
+										  </div>
+										</div>
+									  </div>
+									</div>
+							<!--/ End Button Widget -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--/ End Checkout -->
+<body>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.js"></script>
+</body>
+<style>
+	.checkbox-inline {
+	margin-left: 30px;
+	display: inherit;
+	}
+	button, input[type="button"], input[type="reset"], input[type="submit"], #button1, #button2, #button3 {
+  	background: #333;
+  	color: #fff;
+  	line-height: normal;
+  	}
+</style>
+{% endblock %}

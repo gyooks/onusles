@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Your Orders{% endblock %}
+
+{% block content %}
+
+<ul class="timeline">
+    <li class="complete">
+        <div class="timestamp">
+            <span class="author">Toa Payoh Central Post Office</span>
+            <span class="date">30/07/2019<span>
+                </div>
+                <div class="status">
+                    <div class="status-first">
+                     <span>Loading Port </span>
+            <span>Parcel collected by Courier </span>
+        </div>
+        <div class="status-second">20.5937° N, 78.9629° E</div>
+        <div class="status-third">Coordinates</div>
+        <div class="status-fourth">35 mis ago</div>
+        </div>
+    </li>
+    <li class="complete">
+        <div class="timestamp">
+            <span class="author">Speedpost Service Centre</span>
+            <span class="date">01/08/2019<span>
+                </div>
+                <div class="status">
+                    <div class="status-first">
+                     <span>Investigation</span>
+            <span>Received at Processing Facility</span>
+        </div>
+        <div class="status-second">20.5937° N, 78.9629° E</div>
+        <div class="status-third">Coordinates</div>
+        <div class="status-fourth">35 mis ago</div>
+        </div>
+    </li>
+    <li class="">
+        <div class="timestamp">
+            <span class="author">Speedpost service centre</span>
+            <span class="date">05/08/2019<span>
+                </div>
+                <div class="status">
+                    <div class="status-first">
+                     <span>Vessel </span>
+            <span>Delivery courier on the way </span>
+        </div>
+        <div class="status-second">20.5937° N, 78.9629° E</div>
+        <div class="status-third">Coordinates</div>
+        <div class="status-fourth">35 mis ago</div>
+        </div>
+    </li>
+    <li class="">
+        <div class="timestamp">
+            <span class="author">7 Newton Road</span>
+            <span class="date">15/08/2019<span>
+                </div>
+                <div class="status">
+                    <div class="status-first">
+                     <span>Arrived at Destination </span>
+            <span>Parcel has been arrived at given Location & ready to pick</span>
+        </div>
+        <div class="status-second">20.5937° N, 78.9629° E</div>
+        <div class="status-third">Coordinates</div>
+        <div class="status-fourth">35 mis ago</div>
+        </div>
+    </li>
+</ul>
+
+<style>
+ .timeline{list-style-type:none;display:flex;align-items:center;justify-content:center;padding:50px;font-family: 'Open Sans';}
+.timeline li{transition:all 200ms ease-in;flex:4;position:relative;align-items:flex-start!important;min-height:300px;}
+.timestamp{margin-bottom:20px;padding:30px 0px 10px;display:flex;flex-direction:column;font-weight:100;border-top:2px dotted #bebebe;position:relative;}
+.timeline li:nth-child(1) .timestamp:before{font-family:FontAwesome;content:"\f2cd";width:25px;height:25px;background-color:#fff;border:1px solid #fff;border-radius:25px;position:absolute;top:-18px;left:-1px;transition:all 200ms ease-in;}
+.timestamp:before{font-family:FontAwesome;content:"\f041";width:25px;height:22px;border-radius:25px;position:absolute;top:-23px;left:0;transition:all 200ms ease-in;}
+.timestamp:after{font-family:FontAwesome;content:"\f0f7";color:#f88d4a;width:25px;height:25px;background-color:#fff;border:1px solid #fff;border-radius:25px;position:absolute;top:-18px;left:42%;transition:all 200ms ease-in;line-height:25px;text-align:center;}
+.timeline li:last-child:after{font-family:FontAwesome;content:"\f00c";width:25px;height:25px;background-color:#fff;border:1px solid #fff;border-radius:25px;position:absolute;top:-16px;right:-1px;transition:all 200ms ease-in;color:#ccc;}
+.timeline li.complete:last-child:after{font-family:FontAwesome;content:"\f00c";color:#8fbb13;width:25px;height:25px;background-color:#fff;border:1px solid #fff;border-radius:25px;position:absolute;top:-16px;right:-1px;transition:all 200ms ease-in;line-height:25px;text-align:center;}
+.complete .timestamp:after{font-family:FontAwesome;content:"\f0d1";color:#f88d4a;width:25px;height:25px;background-color:#fff;border:1px solid #fff;border-radius:25px;position:absolute;top:-18px;left:42%;transition:all 200ms ease-in;}
+.status div{@extend .flex-column;}
+.status{padding:30px 30px 0 0;justify-content:center;border-top:2px solid #D6DCE0;position:relative;transition:all 200ms ease-in;}
+.status h4{font-weight:600;}
+.status:before{content:"";width:25px;height:25px;background-color:white;border-radius:25px;border:1px solid #ddd;position:absolute;top:-15px;left:0;transition:all 200ms ease-in;}
+.timeline li:last-child .status:after{content:"";width:25px;height:25px;background-color:white;border-radius:25px;border:1px solid #ddd;position:absolute;top:-15px;right:0;transition:all 200ms ease-in;}
+.timeline li.complete .status{border-top:2px solid #8FBB13;}
+.timeline li.complete .status:before{font-family:FontAwesome;content:"\f00c";color:#fff;background-color:#8FBB13;border:none;background-position:center center;transition:all 200ms ease-in;line-height:25px;text-align:center;}
+.timeline li.complete:last-child .status:after{font-family:FontAwesome;content:"\f00c";color:#fff;background-color:#8FBB13;border:none;background-position:center center;transition:all 200ms ease-in;line-height:25px;text-align:center;}
+.timeline li.complete .status h4{color:#66DC71;}
+.status-first span:nth-child(1){font-size:18px;}
+.status-first span:nth-child(2){color:#7F7F7F;}
+.status-second{}
+.status-third{color:#7F7F7F;}
+.status-fourth{color:#BEBEBE;}
+.timestamp .date{color:#7F7F7F;}
+.timestamp .author{color:#000;font-size:20px;}
+
+</style>
+
+{% endblock %}

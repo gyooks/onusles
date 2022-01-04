@@ -1,0 +1,179 @@
+<body>
+<!-- Preloader -->
+	<header>
+	<div class="preloader">
+		<div class="preloader-inner">
+			<div class="preloader-icon">
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+	</div>
+	<!-- End Preloader -->
+		<!-- Header -->
+		<header class="header shop">
+			<!-- Topbar -->
+			<div class="topbar">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-4 col-md-12 col-12">
+							<!-- Top Left -->
+							<div class="top-left">
+								<ul class="list-main">
+									<li><i class="ti-headphone-alt"></i> +060 (800) 801-582</li>
+									<li><i class="ti-email"></i> support@shophub.com</li>
+								</ul>
+							</div>
+							<!--/ End Top Left -->
+						</div>
+						<div class="col-lg-8 col-md-12 col-12">
+							<!-- Top Right -->
+							<div class="right-content">
+								<ul class="list-main">
+									<li><i class="ti-location-pin"></i> Store location</li>
+
+									{% if current_user.is_authenticated %}
+									<li><i class="ti-power-off"></i><a href="{{url_for('customer_logout')}}">Logout</a></li>
+									{% if current_user.role == "E" or "M" %}
+									<li><i class="ti-user"></i> <a href="/retrieveProducts">Staff</a></li>
+									{% else %}
+									{% endif %}
+									{% else %}
+									<li><i class="ti-power-off"></i><a href="/customer/login">Login</a></li>
+									<li><i class=""></i><a href="/customer/register">Register</a></li>
+									{% endif %}
+
+								</ul>
+							</div>
+							<!-- End Top Right -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Topbar -->
+			<div class="middle-inner">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-2 col-md-2 col-12">
+							<!-- Logo -->
+							<div class="logo">
+								<a href="/"><img src="{{url_for('static', filename='img/logo4.png')}}" alt="logo"></a>
+							</div>
+							<!--/ End Logo -->
+							<!-- Search Form -->
+							<div class="search-top">
+								<div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
+								<!-- Search Form -->
+								<div class="search-top">
+									<form class="search-form">
+										<input type="text" placeholder="Search here..." name="search">
+										<button value="search" type="submit"><i class="ti-search"></i></button>
+									</form>
+								</div>
+								<!--/ End Search Form -->
+							</div>
+							<!--/ End Search Form -->
+							<div class="mobile-nav"></div>
+						</div>
+						<div class="col-lg-8 col-md-7 col-12">
+<!--							<div class="search-bar-top">-->
+<!--								<div class="search-bar">-->
+<!--									<select>-->
+<!--										<option selected="selected">All Category</option>-->
+<!--										<option>watch</option>-->
+<!--										<option>mobile</option>-->
+<!--										<option>kid’s item</option>-->
+<!--									</select>-->
+<!--									<form>-->
+<!--										<input name="search" placeholder="Search Products Here....." type="search">-->
+<!--										<button class="btnn"><i class="ti-search"></i></button>-->
+<!--									</form>-->
+<!--								</div>-->
+<!--							</div>-->
+						</div>
+						<div class="col-lg-2 col-md-3 col-12">
+							<div class="right-bar">
+								<!-- Search Form -->
+								{% if current_user.is_authenticated %}
+								<div class="sinlge-bar">
+
+									<a href="{{url_for('getWish')}}" class="single-icon"> <span class="total-count">{{session['Wishlist']|length}}</span></a>
+									<span>({{session['Wishlist']|length}}) Items</span>
+									<a href="/wish" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+
+
+								<div class="sinlge-bar shopping">
+									<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+									<div class="shopping-item">
+										<ul class="shopping-list">
+											<li>
+												<a href="{{url_for('account')}}">{{current_user.name}}</a>
+											</li>
+											<li>
+												<a href="/myorders">My Orders</a>
+											</li>
+											<li>
+												<a href="/retrieveReturns">Return and Refunds</a>
+											</li>
+										</ul>
+										<div class="bottom">
+											<a href="/logout" class="btn animate">Logout</a>
+										</div>
+									</div>
+								</div>
+								{% else %}
+								{% endif %}
+								<div class="sinlge-bar shopping">
+									<a href="{{url_for('getCart')}}" class="single-icon"><i class="ti-bag"></i> <span class="total-count">{{session['Shoppingcart']|length}}</span></a>
+								</div>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Header Inner -->
+			<div class="header-inner">
+				<div class="container">
+					<div class="cat-nav-head">
+						<div class="row">
+							<div class="col-12">
+								<div class="menu-area">
+									<!-- Main Menu -->
+									<nav class="navbar navbar-expand-lg">
+										<div class="navbar-collapse">
+											<div class="nav-inner">
+												<ul class="nav main-menu menu navbar-nav">
+													<li class="active"><a href="/">Home</a></li>
+													<li><a href="/about">About Us<i class="ti-angle-down"></i></a>
+														<ul class="dropdown">
+															<li><a href="/about">Our Organization</a></li>
+														</ul>
+													</li>
+													<li><a href="/shopgrid">Products<span class="new">New</span></a>
+													</li>
+													<li><a href="/customerSupport">Support<i class="ti-angle-down"></i></a>
+														<ul class="dropdown">
+															<li><a href="/customerSupport">Customer Support</a></li>
+															<li><a href="/contact">Contact Us</a></li>
+															<li><a href="/createForm">Forms</a></li>
+															<li><a href="/createDonation">Donations</a></li>
+															<li><a href="">Policies</a></li>
+														</ul>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</nav>
+									<!--/ End Main Menu -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/ End Header Inner -->
+		</header>
+		<!--/ End Header -->
+	</header>
+</body>

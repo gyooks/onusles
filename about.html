@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+{% include 'includes/_messages.html' %}
+<body class="js">
+	<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="/aboutus">About Us</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Breadcrumbs -->
+
+		<!-- Start Blog Single -->
+		<section class="blog-single section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-12">
+						<div class="blog-single-main">
+							<div class="row">
+								<div class="col-12">
+									<div class="image">
+										<img src="https://images.unsplash.com/photo-1569424746512-4f98ac866469?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="#">
+									</div>
+									<div class="blog-detail">
+										<h2 class="blog-title">Who are we?</h2>
+										<div class="blog-meta">
+											<span class="author"><a href="#"><i class="fa fa-user"></i>By Onusles</a><a href="#"><i class="fa fa-calendar"></i>Feb 14, 2018</a><a href="#"><i class="fa fa-comments"></i>Comments</a></span>
+										</div>
+										<div class="content">
+											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sed sapien id nisl eleifend tristique. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vestibulum blandit ultrices. Vivamus tincidunt massa non risus pretium fringilla.
+												Fusce suscipit lorem quam, et tristique elit aliquam feugiat. Praesent blandit eu tellus ultricies posuere. Duis viverra ligula ac libero malesuada, nec porttitor nisi bibendum. Aliquam porta quam sed aliquet iaculis. Suspendisse potenti.
+												Donec molestie diam libero, ut sagittis tortor volutpat non. Sed ullamcorper orci imperdiet erat consectetur tristique. Pellentesque pharetra consectetur magna, vel rutrum mauris luctus sed. Integer dui mi, finibus at nisl non, varius maximus lectus.
+												Sed feugiat gravida felis, et faucibus ex sollicitudin non. Sed blandit feugiat massa eu euismod. Sed sapien ligula, elementum et interdum auctor, porta eget erat.</p>
+											<blockquote> <i class="fa fa-quote-left"></i> A non-profit thrift store organization. We aim to honestly help those in need, while lifting a load of your shoulders.</blockquote>
+										</div>
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="comments">
+										<h3 class="comment-title">Comments</h3>
+										<!-- Single Comment -->
+										{% for comment in comment.items %}
+										<div class="single-comment">
+											<div class="content">
+												<h4>{{comment.name}} <span>{{comment.pub_date.strftime('%d %B %Y, %H:%M ')}}</span></h4>
+												<p>{{comment.message}}</p>
+												<div class="button">
+													<a href="/comment" class="btn"><i class="fa fa-reply" aria-hidden="true"></i>Reply</a>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+										{% if comment.has_prev %}
+										<a href="{{url_for('about', page=comment.prev_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Previous</a>
+										{% endif %}
+										{% if comment.total > 3 %}
+										{% for page_num in comment.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+										{% if page_num %}
+										{% if comment.page == page_num %}
+										<a href="{{url_for('about', page=page_num)}}" class="btn btn-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+										{% else %}
+										<a href="{{url_for('about', page=page_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">{{page_num}}</a>
+										{% endif %}
+										{% else %}
+										...
+										{% endif %}
+										{% endfor %}
+										{% endif %}
+										{% if comment.has_next %}
+										<a href="{{url_for('about', page=comment.next_num)}}" class="btn btn-outline-info btn-sm mt-3" style="color:white;">Next</a>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+<!--					<div class="col-lg-4 col-12">-->
+<!--						<div class="main-sidebar">-->
+<!--							&lt;!&ndash; Single Widget &ndash;&gt;-->
+<!--							<div class="single-widget search">-->
+<!--								<div class="form">-->
+<!--									<input type="email" placeholder="Search Here...">-->
+<!--									<a class="button" href="#"><i class="fa fa-search"></i></a>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							&lt;!&ndash;/ End Single Widget &ndash;&gt;-->
+<!--							&lt;!&ndash; Single Widget &ndash;&gt;-->
+<!--							<div class="single-widget category">-->
+<!--								<h3 class="title">Blog Categories</h3>-->
+<!--								<ul class="categor-list">-->
+<!--									<li><a href="#">Men's Apparel</a></li>-->
+<!--									<li><a href="#">Women's Apparel</a></li>-->
+<!--									<li><a href="#">Bags Collection</a></li>-->
+<!--									<li><a href="#">Accessories</a></li>-->
+<!--									<li><a href="#">Sun Glasses</a></li>-->
+<!--								</ul>-->
+<!--							</div>-->
+<!--							&lt;!&ndash;/ End Single Widget &ndash;&gt;-->
+<!--							&lt;!&ndash; Single Widget &ndash;&gt;-->
+<!--							<div class="single-widget recent-post">-->
+<!--								<h3 class="title">Recent post</h3>-->
+<!--								&lt;!&ndash; Single Post &ndash;&gt;-->
+<!--								<div class="single-post">-->
+<!--									<div class="image">-->
+<!--										<img src="https://via.placeholder.com/100x100" alt="#">-->
+<!--									</div>-->
+<!--									<div class="content">-->
+<!--										<h5><a href="#">Top 10 Beautyful Women Dress in the world</a></h5>-->
+<!--										<ul class="comment">-->
+<!--											<li><i class="fa fa-calendar" aria-hidden="true"></i>Jan 11, 2020</li>-->
+<!--											<li><i class="fa fa-commenting-o" aria-hidden="true"></i>35</li>-->
+<!--										</ul>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; End Single Post &ndash;&gt;-->
+<!--								&lt;!&ndash; Single Post &ndash;&gt;-->
+<!--								<div class="single-post">-->
+<!--									<div class="image">-->
+<!--										<img src="https://via.placeholder.com/100x100" alt="#">-->
+<!--									</div>-->
+<!--									<div class="content">-->
+<!--										<h5><a href="#">Top 10 Beautyful Women Dress in the world</a></h5>-->
+<!--										<ul class="comment">-->
+<!--											<li><i class="fa fa-calendar" aria-hidden="true"></i>Mar 05, 2019</li>-->
+<!--											<li><i class="fa fa-commenting-o" aria-hidden="true"></i>59</li>-->
+<!--										</ul>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; End Single Post &ndash;&gt;-->
+<!--								&lt;!&ndash; Single Post &ndash;&gt;-->
+<!--								<div class="single-post">-->
+<!--									<div class="image">-->
+<!--										<img src="https://via.placeholder.com/100x100" alt="#">-->
+<!--									</div>-->
+<!--									<div class="content">-->
+<!--										<h5><a href="#">Top 10 Beautyful Women Dress in the world</a></h5>-->
+<!--										<ul class="comment">-->
+<!--											<li><i class="fa fa-calendar" aria-hidden="true"></i>June 09, 2019</li>-->
+<!--											<li><i class="fa fa-commenting-o" aria-hidden="true"></i>44</li>-->
+<!--										</ul>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								&lt;!&ndash; End Single Post &ndash;&gt;-->
+<!--							</div>-->
+<!--							&lt;!&ndash;/ End Single Widget &ndash;&gt;-->
+<!--							&lt;!&ndash; Single Widget &ndash;&gt;-->
+<!--							&lt;!&ndash;/ End Single Widget &ndash;&gt;-->
+<!--							&lt;!&ndash; Single Widget &ndash;&gt;-->
+<!--							<div class="single-widget side-tags">-->
+<!--								<h3 class="title">Tags</h3>-->
+<!--								<ul class="tag">-->
+<!--									<li><a href="#">business</a></li>-->
+<!--									<li><a href="#">wordpress</a></li>-->
+<!--									<li><a href="#">html</a></li>-->
+<!--									<li><a href="#">multipurpose</a></li>-->
+<!--									<li><a href="#">education</a></li>-->
+<!--									<li><a href="#">template</a></li>-->
+<!--									<li><a href="#">Ecommerce</a></li>-->
+<!--								</ul>-->
+<!--							</div>-->
+<!--							&lt;!&ndash;/ End Single Widget &ndash;&gt;-->
+<!--							&lt;!&ndash; Single Widget &ndash;&gt;-->
+<!--							<div class="single-widget newsletter">-->
+<!--								<h3 class="title">Newslatter</h3>-->
+<!--								<div class="letter-inner">-->
+<!--									<h4>Subscribe & get news <br> latest updates.</h4>-->
+<!--									<div class="form-inner">-->
+<!--										<input type="email" placeholder="Enter your email">-->
+<!--										<a href="#">Submit</a>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							&lt;!&ndash;/ End Single Widget &ndash;&gt;-->
+<!--						</div>-->
+<!--					</div>-->
+				</div>
+			</div>
+		</section>
+		<!--/ End Blog Single -->
+</body>
+{% endblock %}

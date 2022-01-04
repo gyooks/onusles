@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Onusles - Staff{% endblock %}
+
+{% block content %}
+
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+                                <li><a href="/retrieveProducts">Staff<i class="ti-arrow-right"></i></a></li>
+                                <li class="active"><a href="/staff">Bookkeeping</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- End Breadcrumbs -->
+
+{% if 'entry_created' in session %}
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('entry_created', None) }} was created.
+</div>
+{% elif 'entry_updated' in session %}
+<div class="alert alert-warning alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('entry_updated', None) }} was updated.
+</div>
+{% elif 'entry_deleted' in session %}
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('entry_deleted', None) }} was deleted.
+</div>
+{% endif %}
+
+<section class="product-area shop-sidebar shop section">
+			<div class="container">
+				<div class="row">
+					{% block categories %}
+						{% include 'includes/_categories.html' %}
+					{% endblock %}
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+							<div class="col-12">
+								<!-- Shop Top -->
+<!--								<div class="shop-top">-->
+<!--									<div class="shop-shorter">-->
+<!--										<div class="single-shorter">-->
+<!--											<form>-->
+<!--											<input name="search" placeholder="Search Entries Here....." type="search" id="searchbar">-->
+<!--											<button class="btnn" id="button1"><i class="ti-search"></i></button>-->
+<!--											</form>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+								<!--/ End Shop Top -->
+							</div>
+						</div>
+                        <div>
+                          {% if count == 0 %}
+                          <p>There are no entries.</p>
+                          {% elif count == 1 %}
+                          <p>There is 1 entry.</p>
+                          {% else %}
+                          <p>There are {{ count }} entries.</p>
+                          {% endif %}
+                        </div>
+						<div class="row">
+							<div class="col-lg-4 col-md-6 col-12">
+								<table class="table table-sm table-striped">
+									<thead>
+									  <tr>
+									  	<th>ID</th>
+									  	<th>Category</th>
+									  	<th>Expenses</th>
+										<th>Description</th>
+										<th>Update</th>
+									  	<th>Delete</th>
+									  </tr>
+									</thead>
+									<tbody>
+									  {% for entry in entries_list %}
+									  <tr>
+									  	<td>{{ entry.get_entry_id() }}</td>
+									  	<td>{{ entry.get_cost_category() }}</td>
+									  	<td>{{ entry.get_expenses() }}</td>
+									  	<td>{{ entry.get_description() }}</td>
+										<td><a href="/updateEntry/{{entry.get_entry_id()}}" class="btn btn-warning" id="update">Update</a></td>
+										<td>
+										  <form action="{{url_for('delete_entry', id=entry.get_entry_id())}}" method="POST">
+											<!-- <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{entry.get_cost_category()}}?');">
+											Button to Open the Modal -->
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{entry.get_entry_id()}}">
+									  Delete
+									</button>
+
+									<!-- The Modal -->
+									<div class="modal" id="myModal_{{entry.get_entry_id()}}">
+									  <div class="modal-dialog">
+										<div class="modal-content">
+
+										  <!-- Modal Header -->
+										  <div class="modal-header">
+											<h4 class="modal-title"></h4>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										  </div>
+
+										  <!-- Modal body -->
+										  <div class="modal-body">
+											  <h2 style="text-align:center;">Are you sure you want to delete {{entry.get_cost_category()}}?</h2>
+										  </div>
+
+										  <!-- Modal footer -->
+										  <div class="modal-footer">
+											<input type="submit" value="Delete" class="btn btn-danger">
+										   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+										  </div>
+
+										</div>
+									  </div>
+									</div>
+									{% endfor %}
+										  </form>
+										</td>
+									  </tr>
+									</tbody>
+								  </table>
+							</div>
+						</div>
+                        <div class="row">
+							<div class="col-lg-4 col-md-6 col-12">
+                              <p><b>Bookkeeping Entry</b></p>
+								<form method="GET" action="/staff">
+								  <input type="submit" value="Add" class="btn btn-primary" />
+								</form>
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+</section>
+<style>
+  #button1 {
+  width: 20px;
+  height: 30px;
+  background: #333333;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 0px 0;
+  }
+
+  button, input[type="button"], input[type="reset"], input[type="submit"] {
+  background: #333;
+  color: #fff;
+  line-height: normal;
+  }
+
+  #update {
+  color: #fff;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+  background: none;
+  }
+
+</style>
+{% endblock %}

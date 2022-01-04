@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Product - Add{% endblock %}
+{% from "includes/_formHelper.html" import render_field %}
+
+
+{% block content %}
+{% include "includes/_messages.html" %}
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+                                <li><a href="/retrieveProducts">Staff<i class="ti-arrow-right"></i></a></li>
+                                <li class="active"><a href="/retrieveProducts">Products</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- End Breadcrumbs -->
+<!-- Product Style -->
+<section class="product-area shop-sidebar shop section">
+			<div class="container">
+				<div class="row">
+					{% block categories %}
+						{% include 'includes/_categories.html' %}
+					{% endblock %}
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+							<div class="col-lg-4 col-md-6 col-12">
+								<p>Product Entry</p>
+								<form method="POST" action="" enctype="multipart/form-data">
+								  <div class="form-group">
+									{{ render_field(form.name, class="form-control") }}
+								  </div>
+								  <div class="form-group">
+									{{ render_field(form.price, class="form-control") }}
+								  </div>
+									<div class="form-group">
+										<div class="col-12">{{ render_field(form.image_1, class="form-control")}}</div>
+										<div class="col-12">{{ render_field(form.image_2, class="form-control")}}</div>
+										<div class="col-12">{{ render_field(form.image_3, class="form-control")}}</div>
+									</div>
+								  <input type="submit" value="Add" class="btn btn-primary"/>
+							</div>
+
+							<div class="col-lg-4 col-md-4 col-12">
+								<div class="form-group">
+								    {{ render_field(form.discount, class="form-control") }}
+								  </div>
+									<div class="form-group">
+								    {{ render_field(form.stock, class="form-control") }}
+								  </div>
+									<div class="form-group">
+								    {{ render_field(form.desc, class="form-control") }}
+
+								  </div>
+											<select name="category" id="category" class="form-control" required>
+											<option value="">Category</option>
+											{% for category in categories %}
+											<option value="{{category.id}}"> {{category.name}}</option>
+											{% endfor %}
+										</select>
+							</div>
+						</form>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!--/ End Product Style 1  -->
+<style>
+  button, input[type="button"], input[type="reset"], input[type="submit"] {
+  background: #333;
+  color: #fff;
+  line-height: normal;
+  }
+</style>
+{% endblock %}
